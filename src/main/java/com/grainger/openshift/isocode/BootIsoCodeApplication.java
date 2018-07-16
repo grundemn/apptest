@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.redhat.developers.msa.ola;
+package com.grainger.openshift.isocode;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -23,10 +23,10 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
 @EnableSwagger2
-public class OlaApplication {
+public class BootIsoCodeApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(OlaApplication.class, args);
-    }
+	public static void main(String[] args) {
+		SpringApplication.run(BootIsoCodeApplication.class, args);
+	}
 
 }

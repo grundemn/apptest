@@ -1,10 +1,10 @@
-# ola
-ola microservice using Spring Boot
+# IsoCode
+IsoCode microservice using Spring Boot
 
-The detailed instructions to run *Red Hat Helloworld MSA* demo, can be found at the following repository: <https://github.com/redhat-helloworld-msa/helloworld-msa>
+The detailed instructions to run demo, can be found at the following repository:
 
 
-Build and Deploy ola locally
+Build and Deploy IsoCode locally
 ----------------------------
 
 1. Open a command prompt and navigate to the root directory of this microservice.
@@ -12,7 +12,7 @@ Build and Deploy ola locally
 
         mvn clean compile spring-boot:run
 
-3. The application will be running at the following URL: <http://localhost:8080/api/ola>
+3. The application will be running at the following URL: <http://localhost:8080/api/>
 
 
 Deploy the application in OpenShift
