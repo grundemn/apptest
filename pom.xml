@@ -18,12 +18,12 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.redhat.developers.msa.ola</groupId>
-	<artifactId>bootIsoCode</artifactId>
+	<groupId>com.grainger.openshift.isocode</groupId>
+	<artifactId>isocode</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>bootIsoCode</name>
+	<name>isocode</name>
 	<description>Demo project for Spring Boot</description>
 
 	<parent>
@@ -61,6 +61,18 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
+		
+		 <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+
+        <!-- Use MySQL Connector-J -->
+
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
 
 		<!-- Swagger -->
 		<dependency>
@@ -83,7 +95,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>bootIsoCode</finalName>
+		<finalName>isocode</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
@@ -94,12 +106,15 @@
 				<artifactId>fabric8-maven-plugin</artifactId>
 				<version>3.5.30</version>
 				<configuration>
+				<deployment>
+					<replicas>2</replicas>
+				</deployment>
 					<resources>
 						<labels>
 							<all>
 								<property>
 									<name>app</name>
-									<value>bootIsoCode</value>
+									<value>isocode</value>
 								</property>
 								<property>
 									<name>hystrix.enabled</name>
