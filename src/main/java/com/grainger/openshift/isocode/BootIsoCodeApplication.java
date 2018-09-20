@@ -60,6 +60,7 @@ public class BootIsoCodeApplication {
 			boolean isInitialized = false;
 			// save a the iso code enum to the db if not present
 			try {
+
 				Iterable<IsoCodeEntity> result = repository.findAll();
 				isInitialized = result.iterator().hasNext();
 			} catch (Exception e) {
