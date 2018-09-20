@@ -46,8 +46,8 @@ public class BootIsoCodeDbController {
 		String returnVal = "notfound";
 
 		String normalizedCountry = IsoCode.normalize(country);
-		System.out.println("Checking for country " + country + " normalized "
-				+ normalizedCountry);
+		System.out.println("Checking for country in Database " + country
+				+ " normalized " + normalizedCountry);
 
 		IsoCode iso = IsoCode.valueOf(normalizedCountry);
 		if (iso != null) {

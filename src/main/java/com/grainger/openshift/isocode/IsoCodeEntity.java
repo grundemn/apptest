@@ -28,6 +28,12 @@ public class IsoCodeEntity {
 		return id;
 	}
 
+	@Override
+	public String toString() {
+		return "IsoCodeEntity [id=" + id + ", countryName=" + countryName
+				+ ", isoCode=" + isoCode + "]";
+	}
+
 	public void setId(Integer id) {
 		this.id = id;
 	}
