@@ -58,15 +58,18 @@ public class BootIsoCodeApplication {
 	public CommandLineRunner loadData(IsoCodeRepository repository) {
 		return (args) -> {
 			boolean isInitialized = false;
+			LOG.info("Starting ISOCode Application JDBC="
+					+ System.getenv().get("DB_JDBC_URL"));
 			// save a the iso code enum to the db if not present
 			try {
 
 				Iterable<IsoCodeEntity> result = repository.findAll();
 				isInitialized = result.iterator().hasNext();
 			} catch (Exception e) {
-
+				LOG.info("Need to initialize db.", e);
 			}
 			if (!isInitialized) {
+				LOG.info("Initializing Isocode DB");
 				for (IsoCode isoCode : IsoCode.values()) {
 					repository.save(new IsoCodeEntity(isoCode.name(), isoCode
 							.getIsoCode()));
