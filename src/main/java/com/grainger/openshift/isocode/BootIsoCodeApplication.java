@@ -20,8 +20,6 @@ import javax.ws.rs.core.Application;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -32,8 +30,6 @@ import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
-
-import com.fasterxml.classmate.TypeResolver;
 
 @SpringBootApplication
 @EnableSwagger2
@@ -47,46 +43,6 @@ public class BootIsoCodeApplication {
 		SpringApplication.run(BootIsoCodeApplication.class, args);
 	}
 
-	/**
-	 * 
-	 * Set up the data for the service
-	 * 
-	 * @param repository
-	 * @return
-	 */
-	@Bean
-	public CommandLineRunner loadData(IsoCodeRepository repository) {
-		return (args) -> {
-			boolean isInitialized = false;
-			LOG.info("Starting ISOCode Application JDBC="
-					+ System.getenv().get("DB_JDBC_URL"));
-			// save a the iso code enum to the db if not present
-			try {
-
-				Iterable<IsoCodeEntity> result = repository.findAll();
-				isInitialized = result.iterator().hasNext();
-			} catch (Exception e) {
-				LOG.info("Need to initialize db.", e);
-			}
-			if (!isInitialized) {
-				LOG.info("Initializing Isocode DB");
-				for (IsoCode isoCode : IsoCode.values()) {
-					repository.save(new IsoCodeEntity(isoCode.name(), isoCode
-							.getIsoCode()));
-				}
-			}
-
-			// fetch all customers
-			LOG.info("Isocodes found with findAll():");
-			LOG.info("-------------------------------");
-			for (IsoCodeEntity iso : repository.findAll()) {
-				LOG.info(iso.toString());
-			}
-			LOG.info("");
-
-		};
-	}
-
 	@Bean
 	public Docket bootApi() {
 		return new Docket(DocumentationType.SWAGGER_2).select()
@@ -94,8 +50,5 @@ public class BootIsoCodeApplication {
 				.build().pathMapping("/");
 
 	}
-
-	@Autowired
-	private TypeResolver typeResolver;
 
 }
