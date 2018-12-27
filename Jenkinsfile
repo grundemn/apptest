@@ -53,7 +53,7 @@ pipeline {
 			      done
 				"""
 			 openshift.withCluster('dev') {
-              openshift.withProject( 'midtier' ) {
+              openshift.withProject( 'ENV.PROJECT' ) {
                openshift.selector("bc", "boot-isocode-xjxg066").startBuild("--from-dir=oc-build/deployments", "--wait=true")
 			    sh "echo Building Image Complete"
                             }
@@ -66,7 +66,7 @@ pipeline {
 			script {
 			 echo "Starting Dev Deploy"
 			 openshift.withCluster('dev') {
-               openshift.withProject( 'midtier' ) {
+               openshift.withProject( 'ENV.PROJECT' ) {
                 try { openshift.selector("dc/boot-isocode-xjxg066").rollout().latest() } catch (err) { }
                  //Verify deployment to dev code here
 				 echo "Deploy to Dev complete"
@@ -81,7 +81,7 @@ pipeline {
         steps {
             script {
 			 echo "Promoting new image to QA registry using Skopeo..."
-			  openshift.withProject('cicd') {
+			  openshift.withProject('env.NAMESPACE') {
 			   withCredentials([
 				usernamePassword(credentialsId: "qa-reg-token", usernameVariable: "QA_USER", passwordVariable: "QA_PWD"),
 				usernamePassword(credentialsId: "dev-reg-token", usernameVariable: "DEV_USER", passwordVariable: "DEV_PWD")
@@ -91,7 +91,7 @@ pipeline {
 				}
 				echo "Skopeo update complete"
             openshift.withCluster('qa') {
-              openshift.withProject( 'midtier' ) {
+              openshift.withProject( 'ENV.PROJECT' ) {
                openshift.selector("dc", "boot-isocode-xjxg066").rollout().latest();
 					echo "Testing QA deployment"
                   //Verify deploy to QA code here
