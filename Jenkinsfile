@@ -1,6 +1,6 @@
 
 echo "Starting Pipeline for ...."
- def giturl = "https://github.com/grundemn/apptest.git"
+ def giturl = "https://github.com/grundemn/apptest"
  def mvnCmd = "mvn -s configuration/cicd-settings-nexus3.xml"
  
 pipeline {
