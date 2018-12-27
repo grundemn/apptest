@@ -54,7 +54,7 @@ pipeline {
 				"""
 			 openshift.withCluster('dev') {
               openshift.withProject( 'ENV.PROJECT' ) {
-               openshift.selector("bc", "boot-isocode-xjxg066").startBuild("--from-dir=oc-build/deployments", "--wait=true")
+               openshift.selector("bc", "openjdk18-web-basic-s2i-pipeline").startBuild("--from-dir=oc-build/deployments", "--wait=true")
 			    sh "echo Building Image Complete"
                             }
                         }
