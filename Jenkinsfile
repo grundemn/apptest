@@ -6,7 +6,7 @@ echo "Starting Pipeline for ...."
  def prodt5reg = "docker://docker-registry-default.ospprodt5.gcom.grainger.com/"
  env.APP_NAME = "${env.JOB_NAME}".replaceAll(/-?pipeline-?/, '').replaceAll(/-?${env.NAMESPACE}-?/, '')
  echo "echo app name now"
- echo "env.APP_NAME"
+echo "${env.APP_NAME}"
  
 pipeline {
     
