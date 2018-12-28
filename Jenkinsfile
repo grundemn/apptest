@@ -1,5 +1,4 @@
 echo "Starting Pipeline for ...."
- def giturl = "https://github.com/grundemn/apptest.git"
  def mvnCmd = "mvn -s configuration/cicd-settings-nexus3.xml"
  
 pipeline {
@@ -10,7 +9,7 @@ pipeline {
      stage('Build Code') {
         steps {
 		 script {
-			 git url: "${giturl}"
+			 git url: env.SOURCE_CODE_URL
               sh "${mvnCmd} install -DskipTests=true"
 			   echo "Maven Build Complete"
 					}
@@ -104,7 +103,7 @@ pipeline {
 	  agent { label 'skopeo' }
         steps {
             mail (
-            to: 'env.EMAIL',
+            to: ('env.EMAIL'),
             subject: "Job '${JOB_NAME}' (${BUILD_NUMBER}) is waiting for input",
              body: "Please go to ${BUILD_URL} and verify the build");
                  timeout(time:15, unit:'MINUTES') {
