@@ -52,8 +52,8 @@ pipeline {
 			      done
 				"""
 			 openshift.withCluster('dev') {
-              openshift.withProject( 'ENV.PROJECT' ) {
-               openshift.selector("bc", "boot-isocode-xjxg066").startBuild("--from-dir=oc-build/deployments", "--wait=true")
+              openshift.withProject(ENV.PROJECT) {
+               openshift.selector("bc", "boot-isocode-xjxg066-pipeline").startBuild("--from-dir=oc-build/deployments", "--wait=true")
 			    sh "echo Building Image Complete"
                             }
                         }
@@ -65,7 +65,7 @@ pipeline {
 			script {
 			 echo "Starting Dev Deploy"
 			 openshift.withCluster('dev') {
-               openshift.withProject( 'ENV.PROJECT' ) {
+               openshift.withProject(ENV.PROJECT) {
                 try { openshift.selector("dc/boot-isocode-xjxg066").rollout().latest() } catch (err) { }
                  //Verify deployment to dev code here
 				 echo "Deploy to Dev complete"
@@ -80,7 +80,7 @@ pipeline {
         steps {
             script {
 			 echo "Promoting new image to QA registry using Skopeo..."
-			  openshift.withProject('env.NAMESPACE') {
+			  openshift.withProject(ENV.NAMESPACE) {
 			   withCredentials([
 				usernamePassword(credentialsId: "qa-reg-token", usernameVariable: "QA_USER", passwordVariable: "QA_PWD"),
 				usernamePassword(credentialsId: "dev-reg-token", usernameVariable: "DEV_USER", passwordVariable: "DEV_PWD")
@@ -104,7 +104,7 @@ pipeline {
 	  agent { label 'skopeo' }
         steps {
             mail (
-            to: 'jeff.grundeman@grainger.com',
+            to: 'ENV.MAIL',
             subject: "Job '${JOB_NAME}' (${BUILD_NUMBER}) is waiting for input",
              body: "Please go to ${BUILD_URL} and verify the build");
                  timeout(time:15, unit:'MINUTES') {
@@ -119,7 +119,7 @@ pipeline {
                         }
             openshift.withCluster('prod-lf') {
              echo "Starting Prod LF rollout"
-               openshift.withProject( 'midtier' ) {
+               openshift.withProject(ENV.PROJECT ) {
                 openshift.selector("dc", "boot-isocode-xjxg066").rollout().latest();
                  //Verify deploy to Prod here
 								}
@@ -143,7 +143,7 @@ pipeline {
                         }
             openshift.withCluster('prod-t5') {
 			 echo "Staring Prod T5 rollout"
-               openshift.withProject( 'midtier' ) {
+               openshift.withProject(ENV.PROJECT) {
                 openshift.selector("dc", "boot-isocode-xjxg066").rollout().latest();
               
                   //verify deploy to prod here
