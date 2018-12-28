@@ -1,13 +1,6 @@
 echo "Starting Pipeline for ...."
  def mvnCmd = "mvn -s configuration/cicd-settings-nexus3.xml"
-env.devreg = "${docker://docker-registry.default.svc:5000/}"
-env.qareg = "${docker://docker-registry-default.ospqa.gcom.grainger.com/}"
- def prodlfreg = "docker://docker-registry-default.ospprodlf.gcom.grainger.com/"
- def prodt5reg = "docker://docker-registry-default.ospprodt5.gcom.grainger.com/"
- env.APP_NAME = "${env.JOB_NAME}"
- echo "echo app name now"
-echo "${env.APP_NAME}"
- 
+
 pipeline {
     
  agent { label 'maven' }
@@ -91,7 +84,7 @@ pipeline {
 				usernamePassword(credentialsId: "qa-reg-token", usernameVariable: "QA_USER", passwordVariable: "QA_PWD"),
 				usernamePassword(credentialsId: "dev-reg-token", usernameVariable: "DEV_USER", passwordVariable: "DEV_PWD")
 				 ]) {
-				   sh "skopeo copy "${env.devreg}"midtier/boot-isocode-xjxg066:latest "${env.qareg}"midtier/boot-isocode-xjxg066:latest --src-creds \"$DEV_USER:$DEV_PWD\" --dest-creds \"$QA_USER:$QA_PWD\" --src-tls-verify=false --dest-tls-verify=false"
+				   sh "skopeo copy docker://docker-registry.default.svc:5000/midtier/boot-isocode-xjxg066:latest docker://docker-registry-default.ospqa.gcom.grainger.com/midtier/boot-isocode-xjxg066:latest --src-creds \"$DEV_USER:$DEV_PWD\" --dest-creds \"$QA_USER:$QA_PWD\" --src-tls-verify=false --dest-tls-verify=false"
                     }
 				}
 				echo "Skopeo update complete"
