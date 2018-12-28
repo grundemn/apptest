@@ -4,7 +4,7 @@ echo "Starting Pipeline for ...."
  def qareg = "docker://docker-registry-default.ospqa.gcom.grainger.com/"
  def prodlfreg = "docker://docker-registry-default.ospprodlf.gcom.grainger.com/"
  def prodt5reg = "docker://docker-registry-default.ospprodt5.gcom.grainger.com/"
- env.APP_NAME = "${env.JOB_NAME}".replaceAll(/-?pipeline-?/, '').replaceAll(/-?${env.NAMESPACE}-?/, '')
+ env.APP_NAME = "${env.JOB_NAME}"
  echo "echo app name now"
 echo "${env.APP_NAME}"
  
